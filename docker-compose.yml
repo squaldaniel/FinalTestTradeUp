@@ -1,0 +1,27 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./viacep
+      dockerfile: Dockerfile.front
+    container_name: tradeup_frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - tradeup-network
+
+  backend:
+    build:
+      context: ./testeTradeUpBack
+      dockerfile: Dockerfile.laravel
+    container_name: tradeup_backend
+    ports:
+      - "8000:80"
+    networks:
+      - tradeup-network
+    depends_on:
+      - frontend
+
+networks:
+  tradeup-network:
+    driver: bridge
