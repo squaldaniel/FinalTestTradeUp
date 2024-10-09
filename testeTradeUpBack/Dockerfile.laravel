@@ -20,6 +20,9 @@ COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Copiar o arquivo .env.example para .env
+RUN cp .env.example .env
+
 # Instalar as dependências do Composer com limite de memória desabilitado
 RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction --optimize-autoloader --no-dev
 
