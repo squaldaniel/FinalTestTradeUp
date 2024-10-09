@@ -48,39 +48,49 @@ export default {
       }
     },
     async realizarConsulta() {
-      try {
-        this.consultaEmAndamento = true;
-        this.consultaErro = false;
-        const numeroSemHifen = this.numero.replace('-', '');
-        // url do backend
-        const response = await fetch(`http://127.0.0.1:8000/api/getcep/${this.numero}`);
-        const data = await response.json()
-        if (data) {
-          const consulta = {
-            id: Date.now(),
-            numero: numeroSemHifen,
-            resultado: data.resultado,
-          };
-          this.$store.dispatch('adicionarConsulta', consulta);
-          this.numero = ''; // Limpa o campo após a consulta
-        } else {
-          console.error('Dados retornados vazios ou em formato não esperado.');
-        }
-        const consulta = {
-          id: Date.now(),
-          numero: this.numero.replace('-', ''),
-          resultado: ('Rua: ' + data.logradouro + ', Bairro: '+ data.bairro 
-          + ' Localidade: '+data.localidade + ' - '+ data.uf)
-        }
-        this.$store.dispatch('adicionarConsulta', consulta)
-        this.numero = '' // Limpa o campo após a consulta
-      } catch (error) {
-        console.error('Erro ao realizar a consulta:', error)
-        this.consultaErro = true;
-      } finally {
-        this.consultaEmAndamento = false;
+  try {
+    this.consultaEmAndamento = true;
+    this.consultaErro = false;
+    const numeroSemHifen = this.numero.replace('-', '');
+    
+    // url do backend
+    const response = await fetch(`http://127.0.0.1:8000/api/getcep/${this.numero}`);
+    const data = await response.json();
+
+    if (data) {
+      // Cria um objeto de consulta com os dados retornados
+      const consulta = {
+        id: Date.now(),
+        numero: numeroSemHifen,
+        resultado: 'Rua: ' + data.logradouro + ', Bairro: ' + data.bairro +
+                   ' Localidade: ' + data.localidade + ' - ' + data.uf
+      };
+
+      // Obtém as consultas atuais do Vuex store
+      const consultasAtuais = this.$store.state.consultas;
+
+      // Se houver 4 ou mais consultas, remove a mais antiga
+      if (consultasAtuais.length >= 4) {
+        consultasAtuais.shift(); // Remove a primeira consulta (mais antiga)
       }
+
+      // Adiciona a nova consulta
+      this.$store.dispatch('adicionarConsulta', consulta);
+
+      // Limpa o campo de número após a consulta
+      this.numero = '';
+    } else {
+      console.error('Dados retornados vazios ou em formato não esperado.');
     }
+  } catch (error) {
+    console.error('Erro ao realizar a consulta:', error);
+    this.consultaErro = true;
+  } finally {
+    this.consultaEmAndamento = false;
+  }
+}
+
+
   }
 }
 </script>

@@ -1,7 +1,7 @@
 # FinalTestTradeUp
 ### Instruções para Inicialização do Projeto
 
-Este projeto contém duas aplicações: uma API construída com Laravel (back-end) e uma aplicação frontend construída com Vue com tailWind. O projeto utiliza Docker Compose para gerenciar ambos os ambientes.
+Este projeto contém duas aplicações: uma API construída com Laravel (back-end) e uma aplicação frontend construída com Vue, vuex e  com TailWind CSS. O projeto utiliza Docker Compose para gerenciar ambos os ambientes.
 
 ## Pré-requisitos
 
