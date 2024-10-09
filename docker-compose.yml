@@ -1,14 +1,27 @@
 version: '3'
-
 services:
-  laravel-app:
+  frontend:
     build:
-      context: ./Backend
+      context: ./viacep
+      dockerfile: Dockerfile.front
+    container_name: tradeup_frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - tradeup-network
+
+  backend:
+    build:
+      context: ./testeTradeUpBack
+      dockerfile: Dockerfile.laravel
+    container_name: tradeup_backend
     ports:
       - "8000:80"
+    networks:
+      - tradeup-network
+    depends_on:
+      - frontend
 
-  vue-app:
-    build:
-      context: ./Frontend
-    ports:
-      - "8080:5173"
+networks:
+  tradeup-network:
+    driver: bridge
