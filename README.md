@@ -32,3 +32,7 @@ Após subir os containers, você poderá acessar as aplicações através dos se
 
 Front-end (Vue.js): http://localhost:5173
 Back-end (Laravel): http://localhost:8000
+
+caso queira ver uma demo em video do projeto rodando:
+[![Demo do Teste](https://img.youtube.com/vi/wjQ3RZarKVM/hqdefault.jpg)](https://youtu.be/wjQ3RZarKVM)
+
